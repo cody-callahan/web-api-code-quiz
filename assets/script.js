@@ -20,44 +20,150 @@ var quizQuestions = [
     question:"where do the dbacks play", 
     answers:["utah","arizona","new mexico","new york"],
     correctAnswer:"arizona"
+},
+{
+    question:"who was the first overall pick in the 2019 MLB draft?", 
+    answers:["Adley Rutschman","Bobby Witt Jr.","Andrew Vaughn","JJ Bleday"],
+    correctAnswer:"Adley Rutschman"
+},
+{
+    question:"where do the angels play", 
+    answers:["salt lake city","phoenix","los angeles","new york city"],
+    correctAnswer:"los angeles"
 }
+
 ]
 
-let currentAnswer = 0
+let currentQuestion = 0
 let score = 0
 
-document.querySelector("#startButton").addEventListener("click",function(){
+
+
+document.querySelector("#startButton").addEventListener("click",function() {
     // document.querySelector("#quizContainer").innerHTML="Commonly used data types do not include:"
-    quizQuestionNumber = 0
-    document.querySelector("#quizQuestionContainer").innerHTML=quizQuestions[0]["question"]
+    document.querySelector("#quizQuestionContainer").innerHTML=quizQuestions[currentQuestion]["question"]
     
-    var actionContainerEl = document.createElement("div");
-    actionContainerEl.className = "task-actions";
-    
-    // create edit button
-    for (let index = 0; index < quizQuestions[0]["answers"].length; index++) {
-        var answerButton = document.createElement("button");
-        answerButton.textContent = quizQuestions[0]["answers"][index];
-        answerButton.className = "quizChoice";
-        // answerButton.setAttribute("data-task-id", taskId);
-        quizAnswerContainer.appendChild(answerButton);
-    }
-    debugger;
-    document.querySelector(".quizChoice").addEventListener("click",function(e){
-        if(e.target.innerHTML == quizQuestions[currentAnswer].correctAnswer){
-            score++
-            // nextQuestion();
-            var answerText = document.createElement("div");
-            answerText.textContent = "Correct!";
-            quizAnswerTextContainer.appendChild(answerText);
-            // console.log("correct")
-        } else {
-            var answerText = document.createElement("div");
-            answerText.textContent = "Incorrect.";
-            quizAnswerTextContainer.appendChild(answerText);
-            // console.log("incorrect")
+        for (let index = 0; index < quizQuestions[currentQuestion]["answers"].length; index++) {
+            var answerButton = document.createElement("button");
+            answerButton.textContent = quizQuestions[currentQuestion]["answers"][index];
+            answerButton.className = "quizChoice";
+            // answerButton.setAttribute("data-task-id", taskId);
+            quizAnswerContainer.appendChild(answerButton);
         }
-     })
+        
+        document.querySelectorAll(".quizChoice").forEach(item => {
+            item.addEventListener('click', event => {
+                //handle click
+                if(event.target.innerHTML == quizQuestions[currentQuestion].correctAnswer){
+                    score++;
+                    nextQuestion();
+                    var answerText = document.createElement("div");
+                    answerText.textContent = "Correct!";
+                    quizAnswerTextContainer.appendChild(answerText);
+                    // console.log("correct")
+                } else if (event.target.innerHTML != quizQuestions[currentQuestion].correctAnswer) {
+                    // debugger;
+                    var answerText = document.createElement("div");
+                    answerText.textContent = "Incorrect";
+                    quizAnswerTextContainer.appendChild(answerText);
+                    nextQuestion();
+                    // console.log("incorrect")
+                }
+              }
+              )});
+
+        // document.querySelector(".quizChoice").addEventListener("click",function(e){
+        //     if(e.target.innerHTML == quizQuestions[currentQuestion].correctAnswer){
+        //         score++;
+        //         nextQuestion();
+        //         var answerText = document.createElement("div");
+        //         answerText.textContent = "Correct!";
+        //         quizAnswerTextContainer.appendChild(answerText);
+        //         // console.log("correct")
+        //     } else if (e.target.innerHTML != quizQuestions[currentQuestion].correctAnswer) {
+        //         debugger;
+        //         var answerText = document.createElement("div");
+        //         answerText.textContent = "Incorrect";
+        //         quizAnswerTextContainer.appendChild(answerText);
+        //         nextQuestion();
+        //         // console.log("incorrect")
+        //     }
+        //  })
+        }
+         )
+    
+
+         const nextQuestion = function() {
+            // debugger;
+            currentQuestion = currentQuestion + 1;
+
+            document.querySelector("#quizQuestionContainer").innerHTML=quizQuestions[currentQuestion]["question"]
+
+
+            let currentQuizAnswers = quizQuestions[currentQuestion]["answers"].length;
+            for (let z = 0; z < currentQuizAnswers; z++) {
+                document.querySelectorAll(".quizChoice")[0].remove();
+            }
+            if (currentQuestion < 4) {
+                for (let index = 0; index < quizQuestions[currentQuestion]["answers"].length; index++) {
+                    var answerButton = document.createElement("button");
+                    answerButton.textContent = quizQuestions[currentQuestion]["answers"][index];
+                    answerButton.className = "quizChoice";
+                    // answerButton.setAttribute("data-task-id", taskId);
+                    quizAnswerContainer.appendChild(answerButton)
+                }
+                document.querySelectorAll(".quizChoice").forEach(item => {
+                    item.addEventListener('click', event => {
+                        //handle click
+                        if(event.target.innerHTML == quizQuestions[currentQuestion].correctAnswer){
+                            score++;
+                            nextQuestion();
+                            var answerText = document.createElement("div");
+                            answerText.textContent = "Correct!";
+                            quizAnswerTextContainer.appendChild(answerText);
+                            // console.log("correct")
+                        } else if (event.target.innerHTML != quizQuestions[currentQuestion].correctAnswer) {
+                            // debugger;
+                            var answerText = document.createElement("div");
+                            answerText.textContent = "Incorrect";
+                            quizAnswerTextContainer.appendChild(answerText);
+                            nextQuestion();
+                            // console.log("incorrect")
+                        }
+                      }
+                      )})
+            } else {
+                console.log("no mas questions")
+            }        
+        }
+        
+
+
+    
+
+    // for (let index = 0; index < quizQuestions[0]["answers"].length; index++) {
+    //     var answerButton = document.createElement("button");
+    //     answerButton.textContent = quizQuestions[0]["answers"][index];
+    //     answerButton.className = "quizChoice";
+    //     // answerButton.setAttribute("data-task-id", taskId);
+    //     quizAnswerContainer.appendChild(answerButton);
+    // }
+    // // debugger;
+    // document.querySelector(".quizChoice").addEventListener("click",function(e){
+    //     if(e.target.innerHTML == quizQuestions[currentAnswer].correctAnswer){
+    //         score++
+    //         // nextQuestion();
+    //         var answerText = document.createElement("div");
+    //         answerText.textContent = "Correct!";
+    //         quizAnswerTextContainer.appendChild(answerText);
+    //         // console.log("correct")
+    //     } else {
+    //         var answerText = document.createElement("div");
+    //         answerText.textContent = "Incorrect.";
+    //         quizAnswerTextContainer.appendChild(answerText);
+    //         // console.log("incorrect")
+    //     }
+    //  })
 
     // var answerButton = document.createElement("button");
     // answerButton.textContent = quizQuestions[0]["answers"][0];
@@ -72,7 +178,7 @@ document.querySelector("#startButton").addEventListener("click",function(){
     // // answerButton.setAttribute("data-task-id", taskId);
 
     // quizAnswerContainer.appendChild(answerButton);
-})
+// })
 
 
 
