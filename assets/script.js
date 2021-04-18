@@ -17,11 +17,14 @@ var quizQuestions = [
     correctAnswer:"joe biden"
 },
 {
-    question:"who is the president of the US?", 
-    answers:["joe biden","margaret thatcher","hulk hogan","catherine zeta-jones"],
-    correctAnswer:"joe biden"
+    question:"where do the dbacks play", 
+    answers:["utah","arizona","new mexico","new york"],
+    correctAnswer:"arizona"
 }
 ]
+
+let currentAnswer = 0
+let score = 0
 
 document.querySelector("#startButton").addEventListener("click",function(){
     // document.querySelector("#quizContainer").innerHTML="Commonly used data types do not include:"
@@ -35,10 +38,26 @@ document.querySelector("#startButton").addEventListener("click",function(){
     for (let index = 0; index < quizQuestions[0]["answers"].length; index++) {
         var answerButton = document.createElement("button");
         answerButton.textContent = quizQuestions[0]["answers"][index];
-        answerButton.className = "btn edit-btn";
+        answerButton.className = "quizChoice";
         // answerButton.setAttribute("data-task-id", taskId);
         quizAnswerContainer.appendChild(answerButton);
     }
+    debugger;
+    document.querySelector(".quizChoice").addEventListener("click",function(e){
+        if(e.target.innerHTML == quizQuestions[currentAnswer].correctAnswer){
+            score++
+            // nextQuestion();
+            var answerText = document.createElement("div");
+            answerText.textContent = "Correct!";
+            quizAnswerTextContainer.appendChild(answerText);
+            // console.log("correct")
+        } else {
+            var answerText = document.createElement("div");
+            answerText.textContent = "Incorrect.";
+            quizAnswerTextContainer.appendChild(answerText);
+            // console.log("incorrect")
+        }
+     })
 
     // var answerButton = document.createElement("button");
     // answerButton.textContent = quizQuestions[0]["answers"][0];
