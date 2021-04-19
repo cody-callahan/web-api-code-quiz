@@ -1,6 +1,6 @@
 var thing = 900
 
-localStorage.setItem("localStorageTestItem",JSON.stringify(thing))
+localStorage.setItem("localStorageTestItem", JSON.stringify(thing))
 
 var savedFromStorage = JSON.parse(localStorage.getItem("localStorageTestItem"));
 
@@ -12,134 +12,148 @@ variable = "another string"
 
 var quizQuestions = [
     {
-    question:"who is the president of the US?", 
-    answers:["joe biden","margaret thatcher","hulk hogan","catherine zeta-jones"],
-    correctAnswer:"joe biden"
-},
-{
-    question:"where do the dbacks play", 
-    answers:["utah","arizona","new mexico","new york"],
-    correctAnswer:"arizona"
-},
-{
-    question:"who was the first overall pick in the 2019 MLB draft?", 
-    answers:["Adley Rutschman","Bobby Witt Jr.","Andrew Vaughn","JJ Bleday"],
-    correctAnswer:"Adley Rutschman"
-},
-{
-    question:"where do the angels play", 
-    answers:["salt lake city","phoenix","los angeles","new york city"],
-    correctAnswer:"los angeles"
-}
+        question: "who is the president of the US?",
+        answers: ["joe biden", "margaret thatcher", "hulk hogan", "catherine zeta-jones"],
+        correctAnswer: "joe biden"
+    },
+    {
+        question: "where do the dbacks play",
+        answers: ["utah", "arizona", "new mexico", "new york"],
+        correctAnswer: "arizona"
+    },
+    {
+        question: "who was the first overall pick in the 2019 MLB draft?",
+        answers: ["Adley Rutschman", "Bobby Witt Jr.", "Andrew Vaughn", "JJ Bleday"],
+        correctAnswer: "Adley Rutschman"
+    },
+    {
+        question: "where do the angels play",
+        answers: ["salt lake city", "phoenix", "los angeles", "new york city"],
+        correctAnswer: "los angeles"
+    }
 
 ]
 
-let currentQuestion = 0
+let currentQuestion = 0;
 let score = 0
 
 
 
-document.querySelector("#startButton").addEventListener("click",function() {
+document.querySelector("#startButton").addEventListener("click", function () {
     // document.querySelector("#quizContainer").innerHTML="Commonly used data types do not include:"
-    document.querySelector("#quizQuestionContainer").innerHTML=quizQuestions[currentQuestion]["question"]
-    
+    nextQuestion();
+});
+
+    // document.querySelector(".quizChoice").addEventListener("click",function(e){
+    //     if(e.target.innerHTML == quizQuestions[currentQuestion].correctAnswer){
+    //         score++;
+    //         nextQuestion();
+    //         var answerText = document.createElement("div");
+    //         answerText.textContent = "Correct!";
+    //         quizAnswerTextContainer.appendChild(answerText);
+    //         // console.log("correct")
+    //     } else if (e.target.innerHTML != quizQuestions[currentQuestion].correctAnswer) {
+    //         debugger;
+    //         var answerText = document.createElement("div");
+    //         answerText.textContent = "Incorrect";
+    //         quizAnswerTextContainer.appendChild(answerText);
+    //         nextQuestion();
+    //         // console.log("incorrect")
+    //     }
+    //  })
+
+
+const nextQuestion = function () {
+
+    // document.querySelector("#startButton").innerHTML = "";
+    document.querySelector("#startButton").style.display = "none";
+
+    document.querySelector("#quizQuestionContainer").innerHTML = quizQuestions[currentQuestion]["question"];
+    quizAnswerContainer.innerHTML = "";
+
+    if (currentQuestion < 4) {
         for (let index = 0; index < quizQuestions[currentQuestion]["answers"].length; index++) {
             var answerButton = document.createElement("button");
             answerButton.textContent = quizQuestions[currentQuestion]["answers"][index];
             answerButton.className = "quizChoice";
             // answerButton.setAttribute("data-task-id", taskId);
-            quizAnswerContainer.appendChild(answerButton);
+            quizAnswerContainer.appendChild(answerButton)
         }
-        
         document.querySelectorAll(".quizChoice").forEach(item => {
             item.addEventListener('click', event => {
                 //handle click
-                if(event.target.innerHTML == quizQuestions[currentQuestion].correctAnswer){
+                if (event.target.innerHTML == quizQuestions[currentQuestion].correctAnswer) {
                     score++;
-                    nextQuestion();
-                    var answerText = document.createElement("div");
-                    answerText.textContent = "Correct!";
-                    quizAnswerTextContainer.appendChild(answerText);
-                    // console.log("correct")
-                } else if (event.target.innerHTML != quizQuestions[currentQuestion].correctAnswer) {
-                    // debugger;
-                    var answerText = document.createElement("div");
-                    answerText.textContent = "Incorrect";
-                    quizAnswerTextContainer.appendChild(answerText);
-                    nextQuestion();
-                    // console.log("incorrect")
+                    answerText = "Correct!";
+                } else {
+                    answerText = "Incorrect";
                 }
-              }
-              )});
-
-        // document.querySelector(".quizChoice").addEventListener("click",function(e){
-        //     if(e.target.innerHTML == quizQuestions[currentQuestion].correctAnswer){
-        //         score++;
-        //         nextQuestion();
-        //         var answerText = document.createElement("div");
-        //         answerText.textContent = "Correct!";
-        //         quizAnswerTextContainer.appendChild(answerText);
-        //         // console.log("correct")
-        //     } else if (e.target.innerHTML != quizQuestions[currentQuestion].correctAnswer) {
-        //         debugger;
-        //         var answerText = document.createElement("div");
-        //         answerText.textContent = "Incorrect";
-        //         quizAnswerTextContainer.appendChild(answerText);
-        //         nextQuestion();
-        //         // console.log("incorrect")
-        //     }
-        //  })
-        }
-         )
-    
-
-         const nextQuestion = function() {
-            // debugger;
-            currentQuestion = currentQuestion + 1;
-
-            document.querySelector("#quizQuestionContainer").innerHTML=quizQuestions[currentQuestion]["question"]
-
-
-            let currentQuizAnswers = quizQuestions[currentQuestion]["answers"].length;
-            for (let z = 0; z < currentQuizAnswers; z++) {
-                document.querySelectorAll(".quizChoice")[0].remove();
+                currentQuestion = currentQuestion + 1;
+                quizAnswerTextContainer.textContent = answerText;
+                if (currentQuestion >= 4) {
+                    endQuiz();
+                } else {
+                    nextQuestion();    
+                }
+                
             }
-            if (currentQuestion < 4) {
-                for (let index = 0; index < quizQuestions[currentQuestion]["answers"].length; index++) {
-                    var answerButton = document.createElement("button");
-                    answerButton.textContent = quizQuestions[currentQuestion]["answers"][index];
-                    answerButton.className = "quizChoice";
-                    // answerButton.setAttribute("data-task-id", taskId);
-                    quizAnswerContainer.appendChild(answerButton)
-                }
-                document.querySelectorAll(".quizChoice").forEach(item => {
-                    item.addEventListener('click', event => {
-                        //handle click
-                        if(event.target.innerHTML == quizQuestions[currentQuestion].correctAnswer){
-                            score++;
-                            nextQuestion();
-                            var answerText = document.createElement("div");
-                            answerText.textContent = "Correct!";
-                            quizAnswerTextContainer.appendChild(answerText);
-                            // console.log("correct")
-                        } else if (event.target.innerHTML != quizQuestions[currentQuestion].correctAnswer) {
-                            // debugger;
-                            var answerText = document.createElement("div");
-                            answerText.textContent = "Incorrect";
-                            quizAnswerTextContainer.appendChild(answerText);
-                            nextQuestion();
-                            // console.log("incorrect")
-                        }
-                      }
-                      )})
-            } else {
-                console.log("no mas questions")
-            }        
-        }
-        
+            )
+        })
+    } else {
+        console.log("no mas questions")
+    }
+}
 
 
-    
+const endQuiz = function() {
+    document.querySelector("#quizQuestionContainer").innerHTML = "Finished!"
+    quizAnswerContainer.innerHTML = "";
+
+    quizAnswerContainer.innerHTML = "Your final score is: "+score ;
+
+    var EnterHighScore = document.createElement("label");
+    EnterHighScore.textContent = 'Enter initials:';
+    quizAnswerContainer.appendChild(EnterHighScore);
+
+    var SubmitInitialsTextBox = document.createElement("input");
+    SubmitInitialsTextBox.setAttribute("type", "text");
+    SubmitInitialsTextBox.setAttribute("id", "userInput");
+
+    var SubmitInitialsButton = document.createElement("input");
+    SubmitInitialsButton.setAttribute("type", "submit");
+    SubmitInitialsButton.setAttribute("onclick", "submitInitials();");
+
+    quizAnswerContainer.appendChild(SubmitInitialsTextBox);
+    quizAnswerContainer.appendChild(SubmitInitialsButton);
+}
+
+const submitInitials = function() {
+    // debugger;
+    var userInitials = document.getElementById("userInput").value;
+    var userScore = score;
+    quizAnswerContainer.innerHTML = "";
+    quizAnswerContainer.textContent = "High scores";
+    quizAnswerContainer.textContent = userInitials+' - '+userScore
+
+    quizAnswerTextContainer.innerHTML = "";
+
+    var goBackButton = document.createElement("button");
+    goBackButton.textContent = "Go back"
+    goBackButton.setAttribute("onclick", "goBack();");
+
+    var clearHighScoresButton = document.createElement("button");
+    clearHighScoresButton.textContent = "Clear high scores"
+    clearHighScoresButton.setAttribute("onclick", "clearHighScores();");
+
+
+
+    localStorage.setItem(userInitials, JSON.stringify(score));
+    // savedFromStorage = JSON.parse(localStorage.getItem(userInitials))
+}
+
+
+
+
 
     // for (let index = 0; index < quizQuestions[0]["answers"].length; index++) {
     //     var answerButton = document.createElement("button");
@@ -193,7 +207,7 @@ document.querySelector("#startButton").addEventListener("click",function() {
 
 //     for (let index = 0; index < array.length; index++) {
 //         const element = array[index];
-        
+
 //     }
 //     document.querySelector("#quizAnswerContainer").innerHTML=quizQuestions[0]["answers"]
 
